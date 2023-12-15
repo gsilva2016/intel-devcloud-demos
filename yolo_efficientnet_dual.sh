@@ -13,10 +13,66 @@ pid_count2=1
 pre_process="pre-process-backend=vaapi-surface-sharing pre-process-config=VAAPI_FAST_SCALE_LOAD_FACTOR=1"
 
 # User configured parameters
-#INPUTSRC="filesrc location=/vids/myvideo.mp4 ! qtdemux ! h264parse "
-#INPUTSRC="v4l2src device=/dev/video0 ! videoconvert ! video/x-raw,format=BGR "
-INPUTSRC="rtsp://127.0.0.1:8554/camera_0 ! rtph264depay "
-INPUTSRC2="rtsp://127.0.0.1:8554/camera_0 ! rtph264depay "
+if [ -z "$INPUT_TYPE" ]
+then
+	INPUT_TYPE="FILE_H264"
+	#INPUT_TYPE="RTSP_H265"
+fi
+
+if [ -z "$INPUTSRC" ]
+then
+	INPUTSRC="sample-video.mp4 "
+	#INPUTSRC="rtsp://127.0.0.1:8554/camera_0 "
+fi
+
+if [ -z "$INPUT_TYPE2" ]
+then
+	INPUT_TYPE2="FILE_H264"
+	#INPUT_TYPE2="RTSP_H265"
+fi
+
+if [ -z "$INPUTSRC2" ]
+then
+	INPUTSRC2="sample-video.mp4 "
+	#INPUTSRC2="rtsp://127.0.0.1:8554/camera_0 "
+fi
+
+
+# Stream 1
+if [ "$INPUT_TYPE" == "FILE_H264" ]
+then
+	INPUTSRC="filesrc location=$INPUTSRC ! qtdemux ! h264parse "
+
+elif [ "$INPUT_TYPE" == "RTSP_H264" ]
+then
+	INPUTSRC="$INPUTSRC ! rtph264depay "
+
+elif [ "$INPUT_TYPE" == "FILE_H265" ]
+then
+	INPUTSRC="filesrc location=$INPUTSRC ! qtdemux ! h265parse "
+
+elif [ "$INPUT_TYPE" == "RTSP_H265" ]
+then
+	INPUTSRC="$INPUTSRC ! rtph265depay "
+fi
+
+# Stream 2
+if [ "$INPUT_TYPE2" == "FILE_H264" ]
+then
+	INPUTSRC2="filesrc location=$INPUTSRC2 ! qtdemux ! h264parse "
+
+elif [ "$INPUT_TYPE2" == "RTSP_H264" ]
+then
+	INPUTSRC2="$INPUTSRC2 ! rtph264depay "
+
+elif [ "$INPUT_TYPE2" == "FILE_H265" ]
+then
+	INPUTSRC2="filesrc location=$INPUTSRC2 ! qtdemux ! h265parse "
+
+elif [ "$INPUT_TYPE2" == "RTSP_H265" ]
+then
+	INPUTSRC2="$INPUTSRC2 ! rtph265depay "
+fi
 
 
 if [ "1" == "$LOW_POWER" ]

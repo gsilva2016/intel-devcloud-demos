@@ -11,15 +11,41 @@ cid_count=0
 pre_process="pre-process-backend=vaapi-surface-sharing pre-process-config=VAAPI_FAST_SCALE_LOAD_FACTOR=1"
 
 # User configured parameters
-INPUTSRC="filesrc location=sample-video.mp4 ! qtdemux ! h264parse "
-#INPUTSRC="rtsp://127.0.0.1:8554/camera_0 ! rtph264depay "
-#INPUTSRC="v4l2src device=/dev/video0 ! videoconvert ! video/x-raw,format=BGR "
+if [ -z "$INPUT_TYPE" ]
+then
+	INPUT_TYPE="FILE_H264"
+	#INPUT_TYPE="RTSP_H265"
+fi
+
+if [ -z "$INPUTSRC" ]
+then
+	INPUTSRC="sample-video.mp4 "
+	#INPUTSRC="rtsp://127.0.0.1:8554/camera_0 "
+fi
 
 DET_MODEL="models/yolov5s/1/FP32-INT8/yolov5s.xml"
 DET_MODEL_PROC="models/yolov5s/1/yolov5s.json"
 RECOG_MODEL="models/efficientnet-b0/1/FP16-INT8/efficientnet-b0.xml"
 RECOG_MODEL_PROC="models/efficientnet-b0/1/efficientnet-b0.json"
 RECOG_LABELS="models/efficientnet-b0/1/imagenet_2012.txt"
+
+if [ "$INPUT_TYPE" == "FILE_H264" ]
+then
+	INPUTSRC="filesrc location=$INPUTSRC ! qtdemux ! h264parse "
+
+elif [ "$INPUT_TYPE" == "RTSP_H264" ]
+then
+	INPUTSRC="$INPUTSRC ! rtph264depay "
+
+elif [ "$INPUT_TYPE" == "FILE_H265" ]
+then
+	INPUTSRC="filesrc location=$INPUTSRC ! qtdemux ! h265parse "
+
+elif [ "$INPUT_TYPE" == "RTSP_H265" ]
+then
+	INPUTSRC="$INPUTSRC ! rtph265depay "
+fi
+
 
 if [ "1" == "$LOW_POWER" ]
 then
