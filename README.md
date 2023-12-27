@@ -20,27 +20,26 @@ sudo docker build -t devcloud-demo-ovms:1.0 -f Dockerfile.ovms .
 
 **Environment variables. Note not all are shown below for brevity**
 
-_Used to show direct console output_
+_Used to show direct console output_<br>
 DC=1 
 
-_Video streams' location and types_
-INPUTSRC=rtsp://127.0.0.1:8554/camera_0 
-INPUTSRC2=rtsp://127.0.0.1:8554/camera_0 
-INPUT_TYPE=RTSP_H264
+_Video streams' location and types_<br>
+INPUTSRC=rtsp://127.0.0.1:8554/camera_0 <br>
+INPUTSRC2=rtsp://127.0.0.1:8554/camera_0 <br>
+INPUT_TYPE=RTSP_H264<br>
 INPUT_TYPE2=RTSP_H264
 
-_Rendering_
-RENDER_MODE=0 # enable rendering graphical content in a window
-RENDER_PORTRAIT_MODE=0 # landscape vs. portrait rendering
+_Rendering_<br>
+RENDER_MODE=0 # enable rendering graphical content in a window<br>
+RENDER_PORTRAIT_MODE=0 # landscape vs. portrait rendering<br>
 
-_Pipelines_
-LOW_POWER=1  # GPU  pipeline
-CPU_ONLY=0   # CPU  pipeline
+_Pipelines_<br>
+LOW_POWER=1  # GPU  pipeline<br>
+CPU_ONLY=0   # CPU  pipeline<br>
 LOW_POWER=0 && CPU_ONLY=0 # CPU+GPU pieline
 
-
 **Yolov8 Dual Camera GPU Example**
-
+```
 INPUTSRC=rtsp://127.0.0.1:8554/camera_0 
 INPUTSRC2=rtsp://127.0.0.1:8554/camera_0 
 RENDER_MODE=0
@@ -49,14 +48,16 @@ LOW_POWER=1
 CPU_ONLY=0
 INPUT_TYPE=RTSP_H264
 INPUT_TYPE2=RTSP_H264
+DC=1
+```
 
-
-docker run --rm --user root -it -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet_dual.sh
-
+```
+sudo docker run --rm --user root -it -e DC=$DC -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet_dual.sh
+```
 
 
 **Yolov8 Dual Camera CPU+GPU Example**
-
+```
 INPUTSRC=rtsp://127.0.0.1:8554/camera_0 
 INPUTSRC2=rtsp://127.0.0.1:8554/camera_0 
 RENDER_MODE=0
@@ -65,21 +66,31 @@ LOW_POWER=0
 CPU_ONLY=0
 INPUT_TYPE=RTSP_H264
 INPUT_TYPE2=RTSP_H264
+DC=1
+```
 
+```
+sudo docker run --rm --user root -it -e DC=$DC -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet_dual.sh
+```
 
-docker run --rm --user root -it -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet_dual.sh
+**Yolov8 Single Camera CPU with Rendering Example**<br>
+Check /tmp for log files.
 
-
-**Yolov8 Single Camera CPU with Rendering Example**
-
+```
 xhost +
+```
 
+```
 INPUTSRC=rtsp://127.0.0.1:8554/camera_0 
 RENDER_MODE=1
 RENDER_PORTRAIT_MODE=0
 LOW_POWER=0
 CPU_ONLY=1
 INPUT_TYPE=RTSP_H264
+```
+
+```
+sudo docker run --rm --user root -it -e DISPLAY=$DISPLAY -e INPUTSRC=$INPUTSRC -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet.sh
+```
 
 
-docker run --rm --user root -it -e INPUTSRC=$INPUTSRC -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/yolov8_ensemble/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-ovms:1.0 yolov8_ensemble/yolo_efficientnet.sh
