@@ -42,7 +42,7 @@ RUN cd vision-self-checkout/configs/gst-ovms/pipelines/; cp build-demos.sh /app/
 COPY yolov8_ensemble /app/gst-ovms/pipelines/yolov8_ensemble
 
 WORKDIR /app/gst-ovms/models/
-RUN cd /tmp/vision-self-checkout/download_models/; ./downloadGSTOVMSModels.sh; cp -R /tmp/vision-self-checkout/configs/gst-ovms/models/* .
+RUN cd /tmp/vision-self-checkout/download_models/; ./downloadGSTOVMSModels.sh; cp -R /tmp/vision-self-checkout/configs/gst-ovms/models/efficientnetb0/1/* /app/gst-ovms/pipelines/yolov8_ensemble/models/efficientnetb0/1/
 RUN cd /app/gst-ovms/pipelines; ./build-demos.sh
 
 USER ovms

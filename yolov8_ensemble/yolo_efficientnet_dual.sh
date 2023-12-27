@@ -10,23 +10,31 @@ cid_count=0
 # User configured parameters
 if [ -z "$INPUT_TYPE" ]
 then
-	INPUT_TYPE="FILE_H264"
+	echo "INPUT_TYPE is required"
+	exit 1
+	#INPUT_TYPE="FILE_H264"
 	#INPUT_TYPE="RTSP_H265"
 fi
 if [ -z "$INPUT_TYPE2" ]
 then
-	INPUT_TYPE2="FILE_H264"
+	echo "INPUT_TYPE2 is required"
+	exit 1
+	#INPUT_TYPE2="FILE_H264"
 	#INPUT_TYPE2="RTSP_H265"
 fi
 
 if [ -z "$INPUTSRC" ]
 then
-	INPUTSRC="sample-video.mp4 "
+	echo "INPUTSRC is required"
+	exit 1
+	#INPUTSRC="sample-video.mp4 "
 	#INPUTSRC="rtsp://127.0.0.1:8554/camera_0 "
 fi
 if [ -z "$INPUTSRC2" ]
 then
-	INPUTSRC2="sample-video.mp4 "
+	echo "INPUTSRC2 is required"
+	exit 1
+	#INPUTSRC2="sample-video.mp4 "
 	#INPUTSRC="rtsp://127.0.0.1:8554/camera_0 "
 fi
 
@@ -76,4 +84,10 @@ else
 	CONFIG_NAME="/app/gst-ovms/pipelines/yolov8_ensemble/models/config_yolov8_ensemble_cpu_gpu.json"
 fi
 
-cid_count=0 /app/gst-ovms/pipelines/yolov8_ensemble/yolov8_ensemble $INPUTSRC $INPUTSRC2 $USE_VPL $RENDER_MODE $RENDER_PORTRAIT_MODE $CONFIG_NAME $CODEC_TYPE $CODEC_TYPE2 > /app/yolov8_ensemble/results/pipeline$cid_count.log 2>&1
+# Direct console output
+if [ -z "$DC" ]
+then
+	cid_count=0 /app/gst-ovms/pipelines/yolov8_ensemble/yolov8_ensemble $INPUTSRC $INPUTSRC2 $USE_VPL $RENDER_MODE $RENDER_PORTRAIT_MODE $CONFIG_NAME $CODEC_TYPE $CODEC_TYPE2 > /app/yolov8_ensemble/results/pipeline$cid_count.log 2>&1
+else
+	cid_count=0 /app/gst-ovms/pipelines/yolov8_ensemble/yolov8_ensemble $INPUTSRC $INPUTSRC2 $USE_VPL $RENDER_MODE $RENDER_PORTRAIT_MODE $CONFIG_NAME $CODEC_TYPE $CODEC_TYPE2
+fi

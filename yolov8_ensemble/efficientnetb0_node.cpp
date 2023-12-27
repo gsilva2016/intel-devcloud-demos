@@ -67,9 +67,7 @@ static bool copy_images_into_output(struct CustomNodeTensor* output, const std::
         // std::string imgname = "/tmp/results/classifyimage" + std::to_string(i) + ".jpg";
         // cv::imwrite(imgname.c_str(), originalImage);
 
-        cv::Mat tmp;
-        originalImage.convertTo(tmp, CV_32F, 255.0f);        
-        cv::Mat cropped = tmp(box);        
+        cv::Mat cropped = originalImage(box);
         cv::resize(cropped, image, targetShape);
 
         //  std::string imgname = "/tmp/results/classifyimage" + std::to_string(i) + ".jpg";

@@ -1784,7 +1784,7 @@ void run_stream(std::string mediaPath, GstElement* pipeline, GstElement* appsink
 		        return;
 	        }
             metricStartTime = std::chrono::high_resolution_clock::now();
-	        analytics_frame.convertTo(analytics_frame, CV_32F, 1.0f/255.0);
+	        analytics_frame.convertTo(analytics_frame, CV_32F);
             metricEndTime = std::chrono::high_resolution_clock::now();
             metricLatencyTime = ((std::chrono::duration_cast<std::chrono::milliseconds>(metricEndTime-metricStartTime)).count());
             //cout << "DataType transform decoded frame latency (ms): " << metricLatencyTime << endl;
@@ -1796,7 +1796,7 @@ void run_stream(std::string mediaPath, GstElement* pipeline, GstElement* appsink
             //cout << "Layout transform decoded frame latency (ms): " << metricLatencyTime << endl;
         }
         else {
-            img.convertTo(analytics_frame, CV_32F, 1.0f/255.0);
+            img.convertTo(analytics_frame, CV_32F);
             hwc_to_chw(analytics_frame, floatImage);
         }
 
@@ -1807,7 +1807,7 @@ void run_stream(std::string mediaPath, GstElement* pipeline, GstElement* appsink
 
         // OD Inference
         {            
-            std::lock_guard<std::mutex> lock(_infMtx);
+            //std::lock_guard<std::mutex> lock(_infMtx);
 
             metricStartTime = std::chrono::high_resolution_clock::now();
 
