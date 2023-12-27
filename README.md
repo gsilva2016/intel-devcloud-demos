@@ -18,9 +18,9 @@ sudo docker build -t devcloud-demo-ovms:1.0 -f Dockerfile.ovms .
 
 3. Run GST + OVMS E2E Pipeline Examples
 
-**Environment variables. Note not all are shown below for brevity**
+**Environment variables. Note not all are shown in the below Examples for brevity**
 
-_Used to show direct console output_<br>
+_Used to show direct console output instead of logging to the tmp directory_<br>
 DC=1 
 
 _Video streams' location and types_<br>
