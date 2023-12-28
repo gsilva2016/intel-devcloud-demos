@@ -118,7 +118,7 @@ RENDER_MODE=0 # enable rendering graphical content in a window<br>
 _Pipelines_<br>
 LOW_POWER=1  # GPU  pipeline<br>
 CPU_ONLY=0   # CPU  pipeline<br>
-LOW_POWER=0 && CPU_ONLY=0 # CPU+GPU pieline
+LOW_POWER=0 && CPU_ONLY=0 # CPU+GPU pieline<br>
 MAX=1 # Stream 1 is GPU+GPU and Stream 2 is GPU+CPU
 
 **Yolov8 Dual Camera GPU Example**
@@ -134,7 +134,7 @@ DC=1
 ```
 
 ```
-sudo docker run --rm --user root -it -e DC=$DC -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/dlstreamer/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-dls-yolov8:1.0 
+sudo docker run --rm --user root -it -e DISPLAY=$DISPLAY -e DC=$DC -e INPUTSRC=$INPUTSRC -e INPUTSRC2=$INPUTSRC2 -e RENDER_MODE=$RENDER_MODE -e LOW_POWER=$LOW_POWER -e CPU_ONLY=$CPU_ONLY -e INPUT_TYPE=$INPUT_TYPE -e INPUT_TYPE2=$INPUT_TYPE2 -v /tmp/.X11-unix:/tmp/.X11-unix -v `pwd`/tmp:/app/dlstreamer/results -v `pwd`:/savedir --net host --ipc=host --device /dev/dri/renderD128 devcloud-demo-dls-yolov8:1.0 
 ```
 
 ```
